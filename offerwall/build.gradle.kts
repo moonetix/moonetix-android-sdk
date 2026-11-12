@@ -66,7 +66,7 @@ kotlin {
 dependencies {
     testImplementation("junit:junit:4.13.2")
     // android.jar only has stubs of org.json; the real implementation for JVM unit tests.
-    testImplementation("org.json:json:20240303")
+    testImplementation("org.json:json:20260814")
 }
 
 publishing {
