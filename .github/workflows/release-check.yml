@@ -1,0 +1,77 @@
+name: Release check
+
+on:
+  schedule:
+    - cron: '7 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test the version comparison
+        run: node --test '.github/scripts/*.test.mjs'
+
+      # Opens "Android SDK x.y.z released" when the registry has a newer stable
+      # release than this repository, and closes it once the repository catches up.
+      - name: Compare with the published release
+        run: >-
+          node .github/scripts/check-release.mjs --issue
+          --registry maven
+          --url 'https://moonetix.com/maven/com/moonetix/offerwall/maven-metadata.xml'
+          --local 'offerwall/build.gradle.kts'
+          --name 'Android SDK'
+          --docs 'https://docs.moonetix.com/android-sdk'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Close the failure issue
+        if: success()
+        run: node .github/scripts/github-issue.mjs close --topic release-check-failed --comment "The release check ran cleanly again."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report a failed run
+        if: failure()
+        run: |
+          cat > "$RUNNER_TEMP/body.md" <<EOF
+          The weekly release check failed, so a new Android SDK release would go unnoticed. The registry may be unreachable from GitHub's runners or its format may have changed.
+
+          Failed run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID
+
+          This issue closes itself after the next clean run.
+          EOF
+          node .github/scripts/github-issue.mjs upsert --topic release-check-failed --title "Release check failed" --body-file "$RUNNER_TEMP/body.md"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # GitHub disables scheduled workflows after 60 days without repository activity.
+  keepalive:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Re-enable this workflow
+        run: |
+          curl -fsS -X PUT \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/workflows/release-check.yml/enable"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
