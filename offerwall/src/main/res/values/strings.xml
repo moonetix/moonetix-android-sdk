@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="moonetix_close">Close</string>
+    <string name="moonetix_retry">Try again</string>
+    <string name="moonetix_error_network_title">No connection</string>
+    <string name="moonetix_error_network_message">Check your internet connection and try again.</string>
+    <string name="moonetix_error_session_title">Session ended</string>
+    <string name="moonetix_error_session_message">This offerwall session can no longer be loaded. Close it and open the offerwall again.</string>
+    <string name="moonetix_error_crash_title">Something went wrong</string>
+    <string name="moonetix_error_crash_message">The offerwall stopped unexpectedly. Close it and open the offerwall again.</string>
+</resources>
