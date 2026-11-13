@@ -9,11 +9,11 @@ updates:
         patterns:
           - "com.android.*"
     ignore:
-      - dependency-name: com.android.application
+      # 8.11 and later do not load under the Gradle 9 wrapper used here.
+      # They move together with the AGP 9 migration.
+      - dependency-name: "com.android.*"
         update-types:
-          - version-update:semver-major
-      - dependency-name: com.android.library
-        update-types:
+          - version-update:semver-minor
           - version-update:semver-major
   - package-ecosystem: github-actions
     directory: /
