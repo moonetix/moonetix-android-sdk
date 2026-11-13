@@ -8,13 +8,6 @@ updates:
       android-gradle-plugin:
         patterns:
           - "com.android.*"
-    ignore:
-      # 8.11 and later do not load under the Gradle 9 wrapper used here.
-      # They move together with the AGP 9 migration.
-      - dependency-name: "com.android.*"
-        update-types:
-          - version-update:semver-minor
-          - version-update:semver-major
   - package-ecosystem: github-actions
     directory: /
     schedule:
