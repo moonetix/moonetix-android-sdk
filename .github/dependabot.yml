@@ -4,6 +4,10 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      android-gradle-plugin:
+        patterns:
+          - "com.android.*"
     ignore:
       - dependency-name: com.android.application
         update-types:
@@ -20,6 +24,6 @@ updates:
         patterns:
           - "*"
     ignore:
-      - dependency-name: gradle/actions
+      - dependency-name: gradle/actions/setup-gradle
         update-types:
           - version-update:semver-major
