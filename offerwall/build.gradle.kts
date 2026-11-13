@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("com.android.library")
@@ -18,6 +19,11 @@ android {
     defaultConfig {
         minSdk = 21
         consumerProguardFiles("consumer-rules.pro")
+        // Host apps may compile against any SDK level. Without this, AGP 9 stamps
+        // this module's own compileSdk into the AAR as the minimum for every app.
+        aarMetadata {
+            minCompileSdk = 1
+        }
     }
 
     buildTypes {
@@ -55,7 +61,12 @@ android {
 }
 
 kotlin {
+    // The published POM asks for this kotlin-stdlib, and the classes are written for
+    // this language level, so apps on older Kotlin releases can still use the SDK.
+    coreLibrariesVersion = "2.1.0"
     compilerOptions {
+        languageVersion.set(KotlinVersion.KOTLIN_2_1)
+        apiVersion.set(KotlinVersion.KOTLIN_2_1)
         jvmTarget.set(JvmTarget.JVM_1_8)
         // Real Java default methods, so Java hosts only override the callbacks they need.
         freeCompilerArgs.add("-Xjvm-default=all")
