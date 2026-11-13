@@ -9,15 +9,15 @@ import org.junit.Test
 
 class BrandParserTest {
 
-    private val live = """{"ok":true,"title":"Shark Earnings","logo_url":"https://moonetix.com/uploads/apps/app11_logo_6e6023a6f11f93c1.webp","colors":{"background":"#000000","text":"#FFFFFF","primary":"#2D69FA"}}"""
+    private val live = """{"ok":true,"title":"Example Rewards","logo_url":"https://moonetix.com/uploads/apps/app42_logo_0f1e2d3c4b5a6978.webp","colors":{"background":"#000000","text":"#FFFFFF","primary":"#2D69FA"}}"""
 
     @Test
     fun parsesLiveResponse() {
         val brand = BrandParser.parse(live)
         assertEquals(
             Brand(
-                title = "Shark Earnings",
-                logoUrl = "https://moonetix.com/uploads/apps/app11_logo_6e6023a6f11f93c1.webp",
+                title = "Example Rewards",
+                logoUrl = "https://moonetix.com/uploads/apps/app42_logo_0f1e2d3c4b5a6978.webp",
                 background = 0xFF000000.toInt(),
                 text = 0xFFFFFFFF.toInt(),
                 primary = 0xFF2D69FA.toInt(),
@@ -81,7 +81,7 @@ class BrandParserTest {
 
     @Test
     fun titlesAreCleaned() {
-        assertEquals("Shark", BrandParser.cleanTitle("  Shark \n"))
+        assertEquals("Example", BrandParser.cleanTitle("  Example \n"))
         assertEquals("AB", BrandParser.cleanTitle("A\u0000B"))
         assertNull(BrandParser.cleanTitle("   "))
         assertNull(BrandParser.cleanTitle(null))
@@ -107,7 +107,7 @@ class BrandParserTest {
 
     @Test
     fun allowedLogoUrls() {
-        assertTrue(BrandParser.isAllowedLogoUrl("https://moonetix.com/uploads/apps/app11_logo.webp"))
+        assertTrue(BrandParser.isAllowedLogoUrl("https://moonetix.com/uploads/apps/app42_logo.webp"))
         assertTrue(BrandParser.isAllowedLogoUrl("https://wall.moonetix.com/uploads/a.png"))
         assertTrue(BrandParser.isAllowedLogoUrl("https://MOONETIX.COM/uploads/a.jpg"))
         assertTrue(BrandParser.isAllowedLogoUrl("https://moonetix.com:443/uploads/a.gif"))

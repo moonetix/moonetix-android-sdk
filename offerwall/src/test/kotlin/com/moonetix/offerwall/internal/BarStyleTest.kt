@@ -13,7 +13,7 @@ class BarStyleTest {
     private val defaultOnBar = 0xFF111827.toInt()
     private val defaultAccent = 0xFF2563EB.toInt()
 
-    private val sharkBrand = Brand("Shark Earnings", null, black, white, 0xFF2D69FA.toInt())
+    private val sampleBrand = Brand("Example Rewards", null, black, white, 0xFF2D69FA.toInt())
 
     private fun resolve(title: String? = null, color: Int? = null, brand: Brand? = null) =
         BarStyleResolver.resolve(title, color, brand, defaultBar, defaultOnBar, defaultAccent)
@@ -54,8 +54,8 @@ class BarStyleTest {
 
     @Test
     fun brandIsUsedWhenNoOptions() {
-        val s = resolve(brand = sharkBrand)
-        assertEquals("Shark Earnings", s.title)
+        val s = resolve(brand = sampleBrand)
+        assertEquals("Example Rewards", s.title)
         assertEquals(black, s.barColor)
         assertEquals(white, s.onBarColor)
         assertEquals(0xFF2D69FA.toInt(), s.progressColor) // 4.2:1 on black
@@ -65,7 +65,7 @@ class BarStyleTest {
 
     @Test
     fun explicitOptionsWinOverBrand() {
-        val s = resolve(title = "Earn coins", color = 0xFFFFEB3B.toInt(), brand = sharkBrand)
+        val s = resolve(title = "Earn coins", color = 0xFFFFEB3B.toInt(), brand = sampleBrand)
         assertEquals("Earn coins", s.title)
         assertEquals(0xFFFFEB3B.toInt(), s.barColor)
         // Brand text color is only used with the brand background; auto contrast otherwise.
@@ -75,7 +75,7 @@ class BarStyleTest {
 
     @Test
     fun blankOptionTitleFallsBackToBrand() {
-        assertEquals("Shark Earnings", resolve(title = "  ", brand = sharkBrand).title)
+        assertEquals("Example Rewards", resolve(title = "  ", brand = sampleBrand).title)
     }
 
     @Test
@@ -123,6 +123,6 @@ class BarStyleTest {
     fun statusBarIconsFollowBarLuminance() {
         assertTrue(resolve(color = 0xFFFFEB3B.toInt()).lightBar)
         assertFalse(resolve(color = 0xFF1A237E.toInt()).lightBar)
-        assertFalse(resolve(brand = sharkBrand).lightBar)
+        assertFalse(resolve(brand = sampleBrand).lightBar)
     }
 }
