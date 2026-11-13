@@ -21,6 +21,9 @@ jobs:
           java-version: 17
       - uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
       - run: ./gradlew :offerwall:testDebugUnitTest :offerwall:lintRelease
+      # Builds the AAR, sources jar and POM exactly as a release would, into build/repo.
+      - name: Build the release artifacts
+        run: ./gradlew :offerwall:publishReleasePublicationToLocalRepository
       - name: Keep the lint and test reports
         if: always()
         uses: actions/upload-artifact@v7
@@ -28,3 +31,9 @@ jobs:
           name: reports
           path: offerwall/build/reports/
           if-no-files-found: ignore
+      - name: Keep the release artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: maven-repo
+          path: build/repo/
+          if-no-files-found: error
