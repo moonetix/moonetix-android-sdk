@@ -7,14 +7,13 @@
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
 [![Maven](https://img.shields.io/badge/maven-com.moonetix%3Aofferwall%3A2.0.1-004ABB)](https://docs.moonetix.com/android-sdk#install)
 [![Docs](https://img.shields.io/badge/docs-docs.moonetix.com-004ABB)](https://docs.moonetix.com/android-sdk)
-[![Get keys](https://img.shields.io/badge/get%20keys-moonetix.com-004ABB)](https://moonetix.com/register?from=github-moonetix-android-sdk)
 [![minSdk 21](https://img.shields.io/badge/minSdk-21-3DDC84)](https://moonetix.com/integrations/android)
 
 This is the source of the [Moonetix](https://moonetix.com) Android SDK. It opens the offerwall in a locked-down WebView screen, sends offer links to the Play Store or the browser, and reports a few events to your app. Moonetix is an affiliate network: your users earn your own currency by completing offers, and you earn per completed offer.
 
 The code here is the released 2.0.1 source, kept for reading and auditing. Apps should depend on the Maven artifact.
 
-> **Get your App ID and API key: sign up free at https://moonetix.com/register?from=github-moonetix-android-sdk**
+> To run it you need your Moonetix App ID and API key: see [Get started](#get-started).
 
 ## Design choices
 
@@ -258,7 +257,7 @@ Clicks through the SDK show as `sdk` in the `{integration}` postback macro and a
 
 ## Get started
 
-**Sign up free at https://moonetix.com/register?from=github-moonetix-android-sdk.** Publisher applications are reviewed by hand. After approval, add your app, set the currency name and rate, and put the API key in your server environment. The App ID goes in `Moonetix.init`.
+Sign up free at https://moonetix.com/register?from=github-moonetix-android-sdk. Publisher applications are reviewed by hand. After approval, add your app, set the currency name and rate, and put the API key in your server environment. The App ID goes in `Moonetix.init`.
 
 ## More Moonetix examples
 
